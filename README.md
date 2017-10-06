@@ -15,9 +15,9 @@ JUnit helpers and extensions
 
 ### Make sure final classes are well defined
 
-- checks that class final 
-- checks that it has only one private constructor
-- checks all methods should are static
+- checks class is final 
+- checks class has only one private constructor
+- checks methods are static
 
 ```java
 
