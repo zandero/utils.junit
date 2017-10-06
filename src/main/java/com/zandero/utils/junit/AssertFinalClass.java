@@ -4,9 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.text.MessageFormat;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -26,8 +24,8 @@ public final class AssertFinalClass {
 			assertTrue(String.format("Class '%s' not final!", clazz),
 			           Modifier.isFinal(clazz.getModifiers()));
 
-			assertEquals(String.format("Class '%s' must have only one constructor!", clazz),
-			             1, clazz.getDeclaredConstructors().length);
+			assertTrue(String.format("Class '%s' must have only one constructor!", clazz),
+			             1 == clazz.getDeclaredConstructors().length);
 
 			assertTrue(String.format("Constructor of '%s' must be private!", clazz),
 			           !constructor.isAccessible() || !Modifier.isPrivate(clazz.getModifiers()));

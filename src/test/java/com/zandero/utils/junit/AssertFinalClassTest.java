@@ -52,7 +52,7 @@ public class AssertFinalClassTest {
 			fail();
 		}
 		catch (AssertionError e) {
-			assertEquals("Class 'class com.zandero.utils.test.MultipleContructors' must have only one constructor! expected:<1> but was:<2>", e.getMessage());
+			assertEquals("Class 'class com.zandero.utils.test.MultipleContructors' must have only one constructor!", e.getMessage());
 		}
 	}
 
