@@ -28,7 +28,7 @@ public final class AssertFinalClass {
 			             1 == clazz.getDeclaredConstructors().length);
 
 			assertTrue(String.format("Constructor of '%s' must be private!", clazz),
-			           !constructor.isAccessible() || !Modifier.isPrivate(clazz.getModifiers()));
+			           !constructor.isAccessible() && !Modifier.isPrivate(clazz.getModifiers()));
 
 			constructor.setAccessible(true);
 			constructor.newInstance();

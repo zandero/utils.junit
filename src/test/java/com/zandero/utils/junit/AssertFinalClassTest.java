@@ -1,9 +1,6 @@
 package com.zandero.utils.junit;
 
-import com.zandero.utils.test.MethodNotStatic;
-import com.zandero.utils.test.MultipleContructors;
-import com.zandero.utils.test.NotFinal;
-import com.zandero.utils.test.NotPrivate;
+import com.zandero.utils.test.*;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -20,12 +17,25 @@ public class AssertFinalClassTest {
 		AssertFinalClass.isWellDefined(AssertFinalClass.class);
 	}
 
+
+
 	@Test
 	public void testNotPrivate() {
 
 		try {
 			AssertFinalClass.isWellDefined(NotPrivate.class);
 			fail();
+		}
+		catch (AssertionError e) {
+			assertEquals("Constructor of 'class com.zandero.utils.test.NotPrivate' is not private!", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testNotPrivateTwo() {
+
+		try {
+			AssertFinalClass.isWellDefined(NotPrivateTwo.class);
 		}
 		catch (AssertionError e) {
 			assertEquals("Constructor of 'class com.zandero.utils.test.NotPrivate' is not private!", e.getMessage());
