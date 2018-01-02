@@ -27,7 +27,7 @@ public class AssertFinalClassTest {
 			fail();
 		}
 		catch (AssertionError e) {
-			assertEquals("Constructor of 'class com.zandero.utils.test.NotPrivate' is not private!", e.getMessage());
+			assertEquals("Constructor of 'class com.zandero.utils.test.NotPrivate' must be private!", e.getMessage());
 		}
 	}
 

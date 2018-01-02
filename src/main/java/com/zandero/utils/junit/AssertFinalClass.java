@@ -19,24 +19,26 @@ public final class AssertFinalClass {
 	public static <T> void isWellDefined(Class<T> clazz) {
 
 		try {
-			Constructor<T> constructor = clazz.getDeclaredConstructor();
+			Constructor<?>[] constructors = clazz.getDeclaredConstructors();
 
-			assertTrue(String.format("Class '%s' not final!", clazz),
-			           Modifier.isFinal(clazz.getModifiers()));
+			for (Constructor<?> constructor: constructors) {
+				assertTrue(String.format("Class '%s' not final!", clazz),
+				           Modifier.isFinal(clazz.getModifiers()));
 
-			assertTrue(String.format("Class '%s' must have only one constructor!", clazz),
-			             1 == clazz.getDeclaredConstructors().length);
+				assertTrue(String.format("Class '%s' must have only one constructor!", clazz),
+				           1 == clazz.getDeclaredConstructors().length);
 
-			assertTrue(String.format("Constructor of '%s' must be private!", clazz),
-			           !constructor.isAccessible() && Modifier.isPrivate(constructor.getModifiers()));
+				assertTrue(String.format("Constructor of '%s' must be private!", clazz),
+				           !constructor.isAccessible() && Modifier.isPrivate(constructor.getModifiers()));
 
-			constructor.setAccessible(true);
-			constructor.newInstance();
-			constructor.setAccessible(false);
+				constructor.setAccessible(true);
+				constructor.newInstance();
+				constructor.setAccessible(false);
 
-			checkMethodsAreStatic(clazz);
+				checkMethodsAreStatic(clazz);
+			}
 		}
-		catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+		catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
 
 			throw new AssertionError(String.format("Constructor of '%s' is not private!", clazz), e);
 		}
