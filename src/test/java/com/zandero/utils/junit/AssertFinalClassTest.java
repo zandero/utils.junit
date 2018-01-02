@@ -17,8 +17,6 @@ public class AssertFinalClassTest {
 		AssertFinalClass.isWellDefined(AssertFinalClass.class);
 	}
 
-
-
 	@Test
 	public void testNotPrivate() {
 
