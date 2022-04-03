@@ -1,57 +1,54 @@
 package com.zandero.utils.junit;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
  */
 public final class AssertFinalClass {
 
-	private AssertFinalClass() {
-		// hide
-	}
+    private AssertFinalClass() {
+        // hide
+    }
 
-	public static <T> void isWellDefined(Class<T> clazz) {
+    public static <T> void isWellDefined(Class<T> clazz) {
 
-		try {
-			Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+        try {
+            Constructor<?>[] constructors = clazz.getDeclaredConstructors();
 
-			for (Constructor<?> constructor: constructors) {
-				assertTrue(String.format("Class '%s' not final!", clazz),
-				           Modifier.isFinal(clazz.getModifiers()));
+            for (Constructor<?> constructor : constructors) {
+                assertTrue(Modifier.isFinal(clazz.getModifiers()),
+                           String.format("Class '%s' not final!", clazz));
 
-				assertTrue(String.format("Class '%s' must have only one constructor!", clazz),
-				           1 == clazz.getDeclaredConstructors().length);
+				assertTrue(Modifier.isPrivate(constructor.getModifiers()),
+						   String.format("Constructor of '%s' must be private!", clazz));
 
-				assertTrue(String.format("Constructor of '%s' must be private!", clazz),
-				           !constructor.isAccessible() && Modifier.isPrivate(constructor.getModifiers()));
+				assertEquals(1, clazz.getDeclaredConstructors().length,
+                             String.format("Class '%s' must have only one constructor!", clazz));
 
-				constructor.setAccessible(true);
-				constructor.newInstance();
-				constructor.setAccessible(false);
 
-				checkMethodsAreStatic(clazz);
-			}
-		}
-		catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
+                constructor.setAccessible(true);
+                constructor.newInstance();
+                constructor.setAccessible(false);
 
-			throw new AssertionError(String.format("Constructor of '%s' is not private!", clazz), e);
-		}
-	}
+                checkMethodsAreStatic(clazz);
+            }
+        } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
 
-	private static <T> void checkMethodsAreStatic(Class<T> clazz) {
+            throw new AssertionError(String.format("Constructor of '%s' is not private!", clazz), e);
+        }
+    }
 
-		Method[] methods = clazz.getMethods();
+    private static <T> void checkMethodsAreStatic(Class<T> clazz) {
 
-		for (Method method : methods) {
+        Method[] methods = clazz.getMethods();
 
-			assertTrue(String.format("Method '%s' in '%s' is not static!", method, clazz),
-			           Modifier.isStatic(method.getModifiers()) || !method.getDeclaringClass().equals(clazz));
-		}
-	}
+        for (Method method : methods) {
+
+            assertTrue(Modifier.isStatic(method.getModifiers()) || !method.getDeclaringClass().equals(clazz),
+                       String.format("Method '%s' in '%s' is not static!", method, clazz));
+        }
+    }
 }

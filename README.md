@@ -13,7 +13,7 @@ JUnit helpers and extensions
 
 ## Usage
 
-### Make sure final classes are well defined
+### Make sure final classes are well-defined
 
 - checks class is final 
 - checks class has only one private constructor
