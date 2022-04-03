@@ -5,7 +5,9 @@ import java.lang.reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- *
+ * - checks class is final
+ * - checks class has only one private constructor
+ * - checks methods are static
  */
 public final class AssertFinalClass {
 
@@ -13,6 +15,11 @@ public final class AssertFinalClass {
         // hide
     }
 
+    /**
+     * Performs check if class is "well-defined"
+     * @param clazz to be checked
+     * @param <T> type
+     */
     public static <T> void isWellDefined(Class<T> clazz) {
 
         try {
